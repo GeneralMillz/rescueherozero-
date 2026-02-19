@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PrepperZero Games</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preload" href="css/design-system.css" as="style">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="tools/games/ejs/data/emulator.min.css">
+  <style>
+    .rom-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .rom-card {
+      background: var(--pz-card-bg, #13162a);
+      border: 1px solid var(--pz-border, #262a3a);
+      border-radius: 10px;
+      padding: 18px 10px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .rom-card:hover {
+      border-color: var(--pz-accent, #4f8cff);
+      background: #1a1e35;
+    }
+    .rom-icon { font-size: 30px; margin-bottom: 10px; }
+    .rom-name { font-size: 11px; word-break: break-word; margin-bottom: 4px; }
+    .rom-sys  { font-size: 10px; opacity: 0.35; }
+    .pz-empty { text-align: center; opacity: 0.4; padding: 40px 20px; }
+
+    #emu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: #000;
+      z-index: 9999;
+      flex-direction: column;
+    }
+    #emu.on { display: flex; }
+    #emu-bar {
+      background: #111;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid #222;
+      flex-shrink: 0;
+    }
+    #emu-bar button {
+      background: #d9534f;
+      color: #fff;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+    }
+    #emu-bar span { font-size: 13px; opacity: 0.6; }
+    #emu-screen { flex: 1; position: relative; }
+    #emu-display { width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <div class="pz-container">
+    <aside class="pz-sidebar" role="navigation" aria-label="Main navigation">
+      <div class="pz-sidebar-header">
+        <h1 class="pz-logo">PrepperZero</h1>
+        <button class="pz-sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+      <nav>
+        <ul class="pz-nav-list">
+          <li><a href="index.html"    class="pz-nav-item"><span class="icon">&#8962;</span><span>Dashboard</span></a></li>
+          <li><a href="maps.html"     class="pz-nav-item"><span class="icon">&#128506;</span><span>Maps</span></a></li>
+          <li><a href="library.html"  class="pz-nav-item"><span class="icon">&#128218;</span><span>Library</span></a></li>
+          <li><a href="tools.html"    class="pz-nav-item"><span class="icon">&#128295;</span><span>Tools</span></a></li>
+          <li><a href="games.html"    class="pz-nav-item pz-nav-active"><span class="icon">&#127918;</span><span>Games</span></a></li>
+          <li><a href="settings.html" class="pz-nav-item"><span class="icon">&#9881;</span><span>Settings</span></a></li>
+          <li><a href="ap_settings.html" class="pz-nav-item"><span class="icon">&#128225;</span><span>Wi-Fi</span></a></li>
+        </ul>
+      </nav>
+      <div class="pz-sidebar-spacer"></div>
+      <div class="pz-sidebar-footer">
+        <p>Offline Server<br>No Internet Required</p>
+      </div>
+    </aside>
+
+    <div class="pz-main">
+      <header class="pz-header">
+        <div class="pz-header-left"><h1 class="pz-page-title">Games</h1></div>
+        <div class="pz-header-right">
+          <div class="pz-status-indicators">
+            <span class="pz-status-pill"><span class="pz-status-dot"></span>Online</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="pz-content">
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>Retro Game Library</h2>
+            <p>NES, SNES, Game Boy, GBA, Genesis &mdash; all offline, all in your browser.</p>
+          </div>
+          <div class="rom-grid" id="rom-grid">
+            <div class="pz-empty">Loading games...</div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="pz-footer"><p>PrepperZero Games &mdash; Fully offline &mdash; No internet required</p></footer>
+    </div>
+  </div>
+
+  <!-- Fullscreen emulator overlay -->
+  <div id="emu">
+    <div id="emu-bar">
+      <button onclick="closeGame()">&#10005; Exit</button>
+      <span id="emu-title"></span>
+    </div>
+    <div id="emu-screen">
+      <div id="emu-display"></div>
+    </div>
+  </div>
+
+  <script src="tools/games/ejs/data/loader.js"></script>
+  <script src="js/sidebar-toggle.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(e => console.warn('[SW]', e.message));
+    }
+
+    const CORES = {
+      nes: 'fceumm', sfc: 'snes9x', smc: 'snes9x',
+      gb: 'gambatte', gbc: 'gambatte', gba: 'mgba',
+      md: 'genesis_plus_gx', gen: 'genesis_plus_gx',
+      sms: 'smsplus', gg: 'smsplus'
+    };
+
+    fetch('/api/roms')
+      .then(r => r.json())
+      .then(games => {
+        const grid = document.getElementById('rom-grid');
+        if (!games.length) {
+          grid.innerHTML = '<div class="pz-empty">No games found in games.json</div>';
+          return;
+        }
+        grid.innerHTML = games.map(g => {
+          const ext = g.file.split('.').pop().toLowerCase();
+          const core = g.core || CORES[ext] || ext;
+          return `<div class="rom-card" onclick="launchGame('${g.file}','${core}','${g.name}')">
+            <div class="rom-icon">&#127918;</div>
+            <div class="rom-name">${g.name}</div>
+            <div class="rom-sys">${g.system || ext}</div>
+          </div>`;
+        }).join('');
+      })
+      .catch(() => {
+        document.getElementById('rom-grid').innerHTML =
+          '<div class="pz-empty">Could not load games.json</div>';
+      });
+
+    function launchGame(file, core, name) {
+      document.getElementById('emu').classList.add('on');
+      document.getElementById('emu-title').textContent = name;
+      document.getElementById('emu-display').innerHTML = '';
+
+      window.EJS_player        = '#emu-display';
+      window.EJS_core          = core;
+      window.EJS_gameUrl       = '/sysroms/' + file;
+      window.EJS_pathtodata    = '/tools/games/ejs/data/';
+      window.EJS_startOnLoaded = true;
+
+      var s = document.createElement('script');
+      s.src = '/tools/games/ejs/data/loader.js?t=' + Date.now();
+      document.body.appendChild(s);
+    }
+
+    function closeGame() {
+      document.getElementById('emu').classList.remove('on');
+      document.getElementById('emu-display').innerHTML = '';
+      document.getElementById('emu-title').textContent = '';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PrepperZero Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PrepperZero System Settings and Status">
+  <link rel="preload" href="css/design-system.css" as="style">
+  <link rel="stylesheet" href="css/design-system.css">
+</head>
+
+<body>
+  <div class="pz-container">
+    <aside class="pz-sidebar" role="navigation" aria-label="Main navigation">
+      <div class="pz-sidebar-header">
+        <h1 class="pz-logo">PrepperZero</h1>
+        <button class="pz-sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+      <nav>
+        <ul class="pz-nav-list">
+          <li><a href="index.html" class="pz-nav-item"><span class="icon">⌂</span><span>Dashboard</span></a></li>
+          <li><a href="maps.html" class="pz-nav-item"><span class="icon">🗺</span><span>Maps</span></a></li>
+          <li><a href="library.html" class="pz-nav-item"><span class="icon">📚</span><span>Library</span></a></li>
+          <li><a href="tools.html" class="pz-nav-item"><span class="icon">🔧</span><span>Tools</span></a></li>
+          <li><a href="settings.html" class="pz-nav-item pz-nav-active"><span class="icon">⚙</span><span>Settings</span></a></li>
+          <li><a href="ap_settings.html" class="pz-nav-item"><span class="icon">📡</span><span>Wi-Fi</span></a></li>
+        </ul>
+      </nav>
+      <div class="pz-sidebar-spacer"></div>
+      <div class="pz-sidebar-footer">
+        <p>Offline Server<br>No Internet Required</p>
+      </div>
+    </aside>
+
+    <div class="pz-main">
+      <header class="pz-header">
+        <div class="pz-header-left"><h1 class="pz-page-title">Settings</h1></div>
+        <div class="pz-header-right"><div class="pz-status-indicators"><span class="pz-status-pill"><span class="pz-status-dot"></span>Online</span></div></div>
+      </header>
+
+      <div class="pz-content">
+        <!-- System Health Section -->
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>System Health</h2>
+            <p>Real-time system performance and status</p>
+          </div>
+          <div class="pz-grid">
+            <div class="pz-card">
+              <h3>Uptime</h3>
+              <div style="font-size: var(--pz-font-size-lg); font-weight: var(--pz-font-weight-bold); color: var(--pz-accent); margin: var(--pz-space-lg) 0;" id="uptime">-- hours -- min</div>
+            </div>
+            <div class="pz-card">
+              <h3>CPU Load</h3>
+              <div style="font-size: var(--pz-font-size-lg); font-weight: var(--pz-font-weight-bold); color: var(--pz-accent); margin: var(--pz-space-lg) 0;" id="cpu-load">--% </div>
+            </div>
+            <div class="pz-card">
+              <h3>Memory</h3>
+              <div style="font-size: var(--pz-font-size-lg); font-weight: var(--pz-font-weight-bold); color: var(--pz-accent); margin: var(--pz-space-lg) 0;" id="mem-usage">-- MB / 512 MB</div>
+            </div>
+            <div class="pz-card">
+              <h3>CPU Temperature</h3>
+              <div style="font-size: var(--pz-font-size-lg); font-weight: var(--pz-font-weight-bold); color: var(--pz-accent); margin: var(--pz-space-lg) 0;" id="cpu-temp">-- C</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Device Information Section -->
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>Device Information</h2>
+            <p>Hardware and software specifications</p>
+          </div>
+          <div class="pz-card">
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              <li style="padding: var(--pz-space-md) 0; border-bottom: var(--pz-border-width) solid var(--pz-border);"><strong>Model:</strong> Raspberry Pi Zero 2 W (512 MB)</li>
+              <li style="padding: var(--pz-space-md) 0; border-bottom: var(--pz-border-width) solid var(--pz-border);"><strong>OS:</strong> Raspberry Pi OS Lite</li>
+              <li style="padding: var(--pz-space-md) 0; border-bottom: var(--pz-border-width) solid var(--pz-border);"><strong>Kernel:</strong> <code id="kernel-version">--</code></li>
+              <li style="padding: var(--pz-space-md) 0;"><strong>Storage:</strong> microSD (PrepperZero appliance)</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Storage Usage Section -->
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>Storage Usage</h2>
+            <p>Disk space allocation and utilization</p>
+          </div>
+          <div class="pz-card">
+            <div style="margin-bottom: var(--pz-space-lg);">
+              <div style="display: flex; justify-content: space-between; margin-bottom: var(--pz-space-sm);">
+                <span>Storage Used</span>
+                <span style="font-weight: var(--pz-font-weight-bold);" id="storage-used">-- GB</span>
+              </div>
+              <div style="height: 24px; background: var(--pz-bg); border-radius: var(--pz-radius); overflow: hidden; border: var(--pz-border-width) solid var(--pz-border);">
+                <div id="storage-fill" style="height: 100%; background: linear-gradient(90deg, var(--pz-accent), var(--pz-secondary)); width: 0%; transition: width 0.3s ease;"></div>
+              </div>
+              <div style="margin-top: var(--pz-space-sm); color: var(--pz-muted); font-size: var(--pz-font-size-sm);">Total: <span id="storage-total">-- GB</span></div>
+            </div>
+          </div>
+          <div class="pz-grid">
+            <div class="pz-card">
+              <h3>ZIM Library</h3>
+              <div style="font-size: var(--pz-font-size-lg); font-weight: var(--pz-font-weight-bold); color: var(--pz-accent); margin: var(--pz-space-md) 0;" id="zim-size">-- GB</div>
+              <p style="font-size: var(--pz-font-size-sm); color: var(--pz-muted);">/home/pi/zim</p>
+            </div>
+            <div class="pz-card">
+              <h3>Maps (MBTiles)</h3>
+              <div style="font-size: var(--pz-font-size-lg); font-weight: var(--pz-font-weight-bold); color: var(--pz-accent); margin: var(--pz-space-md) 0;" id="maps-size">-- GB</div>
+              <p style="font-size: var(--pz-font-size-sm); color: var(--pz-muted);">/home/pi/maps</p>
+            </div>
+            <div class="pz-card">
+              <h3>PrepperZero App</h3>
+              <div style="font-size: var(--pz-font-size-lg); font-weight: var(--pz-font-weight-bold); color: var(--pz-accent); margin: var(--pz-space-md) 0;">Lightweight</div>
+              <p style="font-size: var(--pz-font-size-sm); color: var(--pz-muted);">/home/pi/prepperzero</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Service Status Section -->
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>Service Status</h2>
+            <p>All local services and ports</p>
+          </div>
+          <div class="pz-card" style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: var(--pz-font-size-sm);">
+              <thead>
+                <tr style="border-bottom: var(--pz-border-width) solid var(--pz-border);">
+                  <th style="text-align: left; padding: var(--pz-space-md); color: var(--pz-muted); font-weight: var(--pz-font-weight-medium);">Service</th>
+                  <th style="text-align: left; padding: var(--pz-space-md); color: var(--pz-muted); font-weight: var(--pz-font-weight-medium);">Port</th>
+                  <th style="text-align: left; padding: var(--pz-space-md); color: var(--pz-muted); font-weight: var(--pz-font-weight-medium);">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: var(--pz-border-width) solid var(--pz-border);">
+                  <td style="padding: var(--pz-space-md);">Dashboard</td>
+                  <td style="padding: var(--pz-space-md);"><code>8083</code></td>
+                  <td style="padding: var(--pz-space-md);" id="svc-dashboard">--</td>
+                </tr>
+                <tr style="border-bottom: var(--pz-border-width) solid var(--pz-border);">
+                  <td style="padding: var(--pz-space-md);">Maps Server</td>
+                  <td style="padding: var(--pz-space-md);"><code>8091</code></td>
+                  <td style="padding: var(--pz-space-md);" id="svc-maps">--</td>
+                </tr>
+                <tr style="border-bottom: var(--pz-border-width) solid var(--pz-border);">
+                  <td style="padding: var(--pz-space-md);">Tile Proxy</td>
+                  <td style="padding: var(--pz-space-md);"><code>8087</code></td>
+                  <td style="padding: var(--pz-space-md);" id="svc-tileproxy">--</td>
+                </tr>
+                <tr style="border-bottom: var(--pz-border-width) solid var(--pz-border);">
+                  <td style="padding: var(--pz-space-md);">Kiwix Core</td>
+                  <td style="padding: var(--pz-space-md);"><code>8081</code></td>
+                  <td style="padding: var(--pz-space-md);" id="svc-core">--</td>
+                </tr>
+                <tr style="border-bottom: var(--pz-border-width) solid var(--pz-border);">
+                  <td style="padding: var(--pz-space-md);">Kiwix Nice</td>
+                  <td style="padding: var(--pz-space-md);"><code>8082</code></td>
+                  <td style="padding: var(--pz-space-md);" id="svc-nice">--</td>
+                </tr>
+                <tr>
+                  <td style="padding: var(--pz-space-md);">Game Server</td>
+                  <td style="padding: var(--pz-space-md);"><code>9000</code></td>
+                  <td style="padding: var(--pz-space-md);" id="svc-game">--</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Network Section -->
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>Network</h2>
+            <p>Network configuration and connectivity</p>
+          </div>
+          <div class="pz-grid">
+            <div class="pz-card">
+              <h3>Network Address</h3>
+              <div style="font-size: var(--pz-font-size-lg); font-weight: var(--pz-font-weight-bold); color: var(--pz-accent); margin: var(--pz-space-md) 0; font-family: monospace;" id="device-ip">--.--.--.--</div>
+              <p style="font-size: var(--pz-font-size-sm); color: var(--pz-muted); margin: 0;">Local IP Address</p>
+            </div>
+            <a href="ap_settings.html" class="pz-card" style="text-decoration: none; cursor: pointer; border-color: var(--pz-accent);">
+              <h3>Wi-Fi Hotspot</h3>
+              <p>Configure SSID and password for AP mode</p>
+              <p style="margin-top: var(--pz-space-md); color: var(--pz-accent); font-weight: var(--pz-font-weight-medium);">Edit Settings →</p>
+            </a>
+          </div>
+        </section>
+      </div>
+
+      <footer class="pz-footer"><p>PrepperZero System Dashboard • Real-time monitoring • No internet required</p></footer>
+    </div>
+  </div>
+
+  <script src="js/sidebar-toggle.js"></script>
+  <script src="js/status-poller.js"></script>
+  <script>
+    // Initialize status poller with optimized settings
+    const poller = new StatusPoller({
+      url: `http://${window.location.hostname || "10.42.0.1"}:9100/status.json`,
+      interval: 30000,        // 30 seconds instead of 5 seconds
+      maxBackoff: 120000,     // Max 2 minutes backoff on errors
+      updateDOM: true
+    });
+
+    // Start polling
+    poller.start();
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      poller.stop();
+    });
+  </script>
+
+  <!-- Service Worker Registration for Offline Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch((e) => console.warn('[SW]', e.message));
+    }
+  </script>
+</body>
+</html>

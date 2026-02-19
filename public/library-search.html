@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PrepperZero – Global Library Search</title>
+  <link rel="preload" href="css/design-system.css" as="style">
+  <link rel="stylesheet" href="css/design-system.css">
+  <style>
+    .search-form { max-width: 520px; margin-top: 8px; }
+    .search-form label { font-size: 13px; color: #c0c4d0; display: block; margin-bottom: 6px; }
+    .search-form input[type="text"] {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--pz-border, #33384a);
+      background: #050711;
+      color: #f5f5f5;
+      font-size: 14px;
+    }
+    .search-form button {
+      margin-top: 12px;
+      padding: 9px 18px;
+      border-radius: 6px;
+      border: none;
+      background: var(--pz-accent, #2563eb);
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .search-form button:hover { opacity: 0.85; }
+    .hint { margin-top: 10px; font-size: 12px; color: #9ca3af; }
+    .lib-list { margin-top: 20px; font-size: 13px; color: #9ca3af; padding-left: 16px; line-height: 2; }
+  </style>
+</head>
+<body>
+  <div class="pz-container">
+    <aside class="pz-sidebar" role="navigation" aria-label="Main navigation">
+      <div class="pz-sidebar-header">
+        <h1 class="pz-logo">PrepperZero</h1>
+        <button class="pz-sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+      <nav>
+        <ul class="pz-nav-list">
+          <li><a href="index.html"       class="pz-nav-item"><span class="icon">&#8962;</span><span>Dashboard</span></a></li>
+          <li><a href="maps.html"        class="pz-nav-item"><span class="icon">&#128506;</span><span>Maps</span></a></li>
+          <li><a href="library.html"     class="pz-nav-item pz-nav-active"><span class="icon">&#128218;</span><span>Library</span></a></li>
+          <li><a href="tools.html"       class="pz-nav-item"><span class="icon">&#128295;</span><span>Tools</span></a></li>
+          <li><a href="games.html"       class="pz-nav-item"><span class="icon">&#127918;</span><span>Games</span></a></li>
+          <li><a href="settings.html"    class="pz-nav-item"><span class="icon">&#9881;</span><span>Settings</span></a></li>
+          <li><a href="ap_settings.html" class="pz-nav-item"><span class="icon">&#128225;</span><span>Wi-Fi</span></a></li>
+        </ul>
+      </nav>
+      <div class="pz-sidebar-spacer"></div>
+      <div class="pz-sidebar-footer"><p>Offline Server<br>No Internet Required</p></div>
+    </aside>
+
+    <div class="pz-main">
+      <header class="pz-header">
+        <div class="pz-header-left"><h1 class="pz-page-title">Library Search</h1></div>
+        <div class="pz-header-right">
+          <div class="pz-status-indicators">
+            <span class="pz-status-pill"><span class="pz-status-dot"></span>Online</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="pz-content">
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>Global Library Search</h2>
+            <p>Send the same query to all available Kiwix libraries at once.</p>
+          </div>
+
+          <form class="search-form" id="searchForm">
+            <label for="q">Search phrase</label>
+            <input id="q" name="q" type="text"
+                   placeholder="e.g. water purification, splinting fractures, solar power"
+                   required>
+            <button type="submit">Search all libraries</button>
+            <div class="hint">Opens Core and Nice libraries in new tabs with your query.</div>
+          </form>
+
+          <ul class="lib-list">
+            <li>Core Library &mdash; port 8081</li>
+            <li>Nice Library &mdash; port 8082</li>
+          </ul>
+        </section>
+      </div>
+
+      <footer class="pz-footer"><p>PrepperZero Library Search &mdash; No internet required</p></footer>
+    </div>
+  </div>
+
+  <script src="js/sidebar-toggle.js"></script>
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const q = document.getElementById('q').value.trim();
+      if (!q) return;
+      const host = window.location.hostname;
+      [`http://${host}:8081/`, `http://${host}:8082/`].forEach(url => window.open(url, '_blank'));
+    });
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(e => console.warn('[SW]', e.message));
+    }
+  </script>
+</body>
+</html>

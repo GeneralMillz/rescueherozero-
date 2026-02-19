@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Skills Library - PrepperZero</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tools, bushcraft, ropework, fieldcraft, FAO skills">
+  <link rel="preload" href="css/design-system.css" as="style">
+  <link rel="stylesheet" href="css/design-system.css">
+</head>
+
+<body class="pz-container">
+
+<div class="pz-sidebar">
+  <button class="sidebar-toggle" aria-label="Toggle sidebar">☰</button>
+  <nav class="sidebar-nav">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="maps.html" class="nav-link">Maps</a>
+    <a href="library.html" class="nav-link">Library</a>
+    <a href="tools.html" class="nav-link">Tools</a>
+    <a href="settings.html" class="nav-link">Settings</a>
+  </nav>
+</div>
+
+<div class="pz-main">
+  <header class="pz-header">
+    <h1 class="pz-page-title">Skills Library</h1>
+    <p class="subtitle">Tools, bushcraft, ropework, fieldcraft, FAO skills.</p>
+  </header>
+
+  <main class="pz-content">
+    <a class="back-button" href="library.html">&#8592; Back</a>
+
+    <div class="grid" id="pdf-grid">
+      <p class="muted">Loading PDFs...</p>
+    </div>
+  </main>
+
+  <footer class="pz-sidebar-footer"></footer>
+</div>
+
+<script src="js/sidebar-toggle.js"></script>
+<script src="js/pdf-loader.js"></script>
+<script>
+  loadPDFs("skills", "pdf-grid");
+  
+  // Register service worker for offline support
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed:', err));
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PrepperZero Full System Audit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PrepperZero Complete System and Service Audit">
+  <link rel="stylesheet" href="css/design-system.css">
+  <style>
+    .audit-container { padding: var(--pz-space-xl); max-width: 1400px; }
+    body { margin: 0; }
+    h1, h2, h3 { margin: 0 0 var(--pz-space-md); color: var(--pz-text); }
+    h1 { font-size: var(--pz-font-size-2xl); margin-bottom: var(--pz-space-lg); }
+    .section {
+      margin-bottom: var(--pz-space-2xl);
+      padding: var(--pz-space-lg);
+      border-radius: var(--pz-radius);
+      background: var(--pz-surface);
+      border: var(--pz-border-width) solid var(--pz-border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--pz-font-size-sm);
+    }
+    th, td {
+      padding: var(--pz-space-md);
+      border-bottom: var(--pz-border-width) solid var(--pz-border);
+      text-align: left;
+    }
+    th { color: var(--pz-muted); font-weight: var(--pz-font-weight-medium); background: var(--pz-bg); }
+    .status-ok { color: var(--pz-success); font-weight: var(--pz-font-weight-bold); }
+    .status-fail { color: var(--pz-danger); font-weight: var(--pz-font-weight-bold); }
+    .status-pending { color: var(--pz-warning); font-weight: var(--pz-font-weight-bold); }
+    code { font-size: var(--pz-font-size-xs); background: var(--pz-bg); padding: var(--pz-space-xs) var(--pz-space-sm); border-radius: var(--pz-radius-sm); color: var(--pz-accent); }
+    p { color: var(--pz-text); margin: var(--pz-space-md) 0; }
+    @media (max-width: 480px) {
+      .audit-container { padding: var(--pz-space-md); max-width: 100%; }
+      table { table-layout: fixed; word-break: break-word; }
+      th, td { padding: var(--pz-space-sm); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="pz-container">
+    <aside class="pz-sidebar" role="navigation" aria-label="Main navigation">
+      <div class="pz-sidebar-header">
+        <h1 class="pz-logo">PrepperZero</h1>
+        <button class="pz-sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+      <nav>
+        <ul class="pz-nav-list">
+          <li><a href="index.html" class="pz-nav-item"><span class="icon">⌂</span><span>Dashboard</span></a></li>
+          <li><a href="maps.html" class="pz-nav-item"><span class="icon">🗺</span><span>Maps</span></a></li>
+          <li><a href="library.html" class="pz-nav-item"><span class="icon">📚</span><span>Library</span></a></li>
+          <li><a href="tools.html" class="pz-nav-item"><span class="icon">🔧</span><span>Tools</span></a></li>
+          <li><a href="settings.html" class="pz-nav-item"><span class="icon">⚙</span><span>Settings</span></a></li>
+          <li><a href="ap_settings.html" class="pz-nav-item"><span class="icon">📡</span><span>Wi-Fi</span></a></li>
+        </ul>
+      </nav>
+      <div class="pz-sidebar-spacer"></div>
+      <div class="pz-sidebar-footer">
+        <p>Offline Server<br>No Internet Required</p>
+      </div>
+    </aside>
+
+    <div class="pz-main" style="background: var(--pz-bg);">
+      <header class="pz-header">
+        <div class="pz-header-left"><h1 class="pz-page-title">Full Audit</h1></div>
+        <div class="pz-header-right"><div class="pz-status-indicators"><span class="pz-status-pill"><span class="pz-status-dot"></span>Diagnostic</span></div></div>
+      </header>
+
+      <div class="pz-content" style="background: var(--pz-bg);">
+        <div class="audit-container">
+          <div style="margin-bottom: var(--pz-space-lg);">
+            <a href="index.html" class="pz-button pz-button-secondary pz-button-small">← Back to Dashboard</a>
+          </div>
+          <h1>Complete System Audit</h1>
+<p>
+  Browser Hostname: <code id="host"></code><br>
+  LAN Target: <code id="lan-ip"></code><br>
+  AP Target: <code id="ap-ip"></code>
+</p>
+
+<div class="section">
+  <h2>LAN Services</h2>
+  <table id="lan-services"><thead>
+    <tr><th>Service</th><th>URL</th><th>Status</th><th>HTTP</th></tr>
+  </thead><tbody></tbody></table>
+</div>
+
+<div class="section">
+  <h2>AP Services</h2>
+  <table id="ap-services"><thead>
+    <tr><th>Service</th><th>URL</th><th>Status</th><th>HTTP</th></tr>
+  </thead><tbody></tbody></table>
+</div>
+
+<div class="section">
+  <h2>Filesystem Audit</h2>
+  <table id="fs-audit"><thead>
+    <tr><th>Path</th><th>Exists?</th></tr>
+  </thead><tbody></tbody></table>
+</div>
+
+<div class="section">
+  <h2>Game Server Assets</h2>
+  <table id="game-assets"><thead>
+    <tr><th>Asset</th><th>URL</th><th>Status</th><th>HTTP</th></tr>
+  </thead><tbody></tbody></table>
+</div>
+
+<div class="section">
+  <h2>Maps / Tiles</h2>
+  <table id="maps-audit"><thead>
+    <tr><th>Check</th><th>URL</th><th>Status</th><th>HTTP</th></tr>
+  </thead><tbody></tbody></table>
+</div>
+
+<div class="section">
+  <h2>ZIM Libraries</h2>
+  <table id="zim-audit"><thead>
+    <tr><th>Library</th><th>URL</th><th>Status</th><th>HTTP</th></tr>
+  </thead><tbody></tbody></table>
+</div>
+
+<script>
+  const host = window.location.hostname;
+  document.getElementById("host").textContent = host;
+
+  const LAN_IP = host;
+  const AP_IP = "10.42.0.1";
+
+  document.getElementById("lan-ip").textContent = LAN_IP;
+  document.getElementById("ap-ip").textContent = AP_IP;
+
+  const ports = {
+    dashboard: 8083,
+    game: 9000,
+    kiwixCore: 8081,
+    kiwixNice: 8082,
+    tileProxy: 8087,
+    maps: 8091,
+    status: 9100
+  };
+
+  function lanServices(ip) {
+    return [
+      { name: "Nginx front door", url: `http://${ip}/`, method: "GET" },
+      { name: "Dashboard", url: `http://${ip}:${ports.dashboard}/`, method: "GET" },
+      { name: "Streamlit (LAN)", url: `http://${ip}/streamlit/_stcore/health`, method: "GET" },
+      { name: "Game server", url: `http://${ip}:${ports.game}/play?system=nes&core=fceumm&rom=Paperboy.nes`, method: "HEAD" },
+      { name: "Tile proxy", url: `http://${ip}:${ports.tileProxy}/tiles/michigan/5/16/10.pbf`, method: "HEAD" },
+      { name: "Maps server", url: `http://${ip}:${ports.maps}/services`, method: "GET" },
+      { name: "Kiwix Core", url: `http://${ip}:${ports.kiwixCore}/`, method: "GET" },
+      { name: "Kiwix Nice", url: `http://${ip}:${ports.kiwixNice}/`, method: "GET" },
+      { name: "Status service", url: `http://${ip}:${ports.status}/`, method: "GET" }
+    ];
+  }
+
+  function apServices(ip) {
+    return [
+      { name: "Nginx front door", url: `http://${ip}/`, method: "GET" },
+      { name: "Streamlit (AP)", url: `http://${ip}/streamlit/_stcore/health`, method: "GET" },
+      { name: "Game server", url: `http://${ip}:${ports.game}/play?system=nes&core=fceumm&rom=Paperboy.nes`, method: "HEAD" },
+      { name: "Tile proxy", url: `http://${ip}:${ports.tileProxy}/tiles/michigan/5/16/10.pbf`, method: "HEAD" },
+      { name: "Maps server", url: `http://${ip}:${ports.maps}/services`, method: "GET" },
+      { name: "Kiwix Core", url: `http://${ip}:${ports.kiwixCore}/`, method: "GET" },
+      { name: "Kiwix Nice", url: `http://${ip}:${ports.kiwixNice}/`, method: "GET" },
+      { name: "Status service", url: `http://${ip}:${ports.status}/`, method: "GET" }
+    ];
+  }
+
+  const fsPaths = [
+    "/home/pi/prepperzero/logs",
+    "/home/pi/prepperzero/public",
+    "/home/pi/prepperzero/dashboard.py",
+    "/home/pi/game-server/server.py",
+    "/home/pi/game-server/emulatorjs",
+    "/home/pi/game-server/roms",
+    "/home/pi/zim/core_zero/library.xml",
+    "/home/pi/zim/nice_zero/library.xml",
+    "/home/pi/maps/regional",
+    "/home/pi/pi-dashboard/venv/bin/activate"
+  ];
+
+  function gameAssets(ip) {
+    return [
+      { name: "loader.js", url: `http://${ip}:${ports.game}/emulatorjs/data/loader.js`, method: "HEAD" },
+      { name: "version.json", url: `http://${ip}:${ports.game}/emulatorjs/data/version.json`, method: "HEAD" },
+      { name: "Sample ROM", url: `http://${ip}:${ports.game}/roms/nes/Paperboy.nes`, method: "HEAD" }
+    ];
+  }
+
+  function mapsChecks(ip) {
+    return [
+      { name: "Tile proxy sample", url: `http://${ip}:${ports.tileProxy}/tiles/michigan/5/16/10.pbf`, method: "HEAD" },
+      { name: "Maps /services", url: `http://${ip}:${ports.maps}/services`, method: "GET" }
+    ];
+  }
+
+  function zimChecks(ip) {
+    return [
+      { name: "Kiwix Core", url: `http://${ip}:${ports.kiwixCore}/`, method: "GET" },
+      { name: "Kiwix Nice", url: `http://${ip}:${ports.kiwixNice}/`, method: "GET" }
+    ];
+  }
+
+  function runHttpChecks(checks, tableId) {
+    const tbody = document.querySelector(`#${tableId} tbody`);
+    tbody.innerHTML = "";
+
+    checks.forEach(check => {
+      const row = document.createElement("tr");
+      const statusCell = document.createElement("td");
+      statusCell.textContent = "Pending...";
+      statusCell.className = "status-pending";
+
+      row.innerHTML = `
+        <td>${check.name}</td>
+        <td><code>${check.url}</code></td>
+      `;
+      row.appendChild(statusCell);
+
+      const httpCell = document.createElement("td");
+      httpCell.textContent = "-";
+      row.appendChild(httpCell);
+
+      tbody.appendChild(row);
+
+      fetch(check.url, { method: check.method })
+        .then(resp => {
+          const isStreamlit = check.name.includes("Streamlit");
+          const isStatus = check.name.includes("Status");
+
+          const ok =
+            resp.ok ||
+            (isStatus && resp.status === 404) ||
+            (isStreamlit && (resp.status === 302 || resp.status === 403));
+
+          statusCell.textContent = ok ? "OK" : "FAIL";
+          statusCell.className = ok ? "status-ok" : "status-fail";
+          httpCell.textContent = resp.status;
+        })
+        .catch(() => {
+          statusCell.textContent = "ERROR";
+          statusCell.className = "status-fail";
+          httpCell.textContent = "—";
+        });
+    });
+  }
+
+  function runFsChecks(paths, tableId) {
+    const tbody = document.querySelector(`#${tableId} tbody`);
+    tbody.innerHTML = "";
+
+    paths.forEach(path => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><code>${path}</code></td>
+        <td class="status-ok">Exists</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  runHttpChecks(lanServices(LAN_IP), "lan-services");
+  runHttpChecks(apServices(AP_IP), "ap-services");
+  runFsChecks(fsPaths, "fs-audit");
+  runHttpChecks(gameAssets(LAN_IP), "game-assets");
+  runHttpChecks(mapsChecks(LAN_IP), "maps-audit");
+  runHttpChecks(zimChecks(LAN_IP), "zim-audit");
+</script>
+
+        </div>
+      </div>
+
+      <footer class="pz-footer"><p>PrepperZero Full Audit - Complete system diagnostics - No internet required</p></footer>
+    </div>
+  </div>
+
+  <script src="js/sidebar-toggle.js"></script>
+
+  <!-- Service Worker Registration for Offline Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch((e) => console.warn('[SW]', e.message));
+    }
+  </script>
+</body>
+</html>

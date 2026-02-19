@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PrepperZero Offline Audit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PrepperZero LAN Mode Service Audit">
+  <link rel="stylesheet" href="css/design-system.css">
+  <style>
+    .audit-container { padding: var(--pz-space-xl); max-width: 1400px; }
+    body { margin: 0; }
+    h1, h2, h3 { margin: 0 0 var(--pz-space-md); color: var(--pz-text); }
+    h1 { font-size: var(--pz-font-size-2xl); margin-bottom: var(--pz-space-lg); }
+    .section {
+      margin-bottom: var(--pz-space-2xl);
+      padding: var(--pz-space-lg);
+      border-radius: var(--pz-radius);
+      background: var(--pz-surface);
+      border: var(--pz-border-width) solid var(--pz-border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--pz-font-size-sm);
+    }
+    th, td {
+      padding: var(--pz-space-md);
+      border-bottom: var(--pz-border-width) solid var(--pz-border);
+      text-align: left;
+    }
+    th { color: var(--pz-muted); font-weight: var(--pz-font-weight-medium); background: var(--pz-bg); }
+    .status-ok { color: var(--pz-success); font-weight: var(--pz-font-weight-bold); }
+    .status-fail { color: var(--pz-danger); font-weight: var(--pz-font-weight-bold); }
+    .status-pending { color: var(--pz-warning); font-weight: var(--pz-font-weight-bold); }
+    code { font-size: var(--pz-font-size-xs); background: var(--pz-bg); padding: var(--pz-space-xs) var(--pz-space-sm); border-radius: var(--pz-radius-sm); color: var(--pz-accent); }
+    p { color: var(--pz-text); margin: var(--pz-space-md) 0; }
+    @media (max-width: 480px) {
+      .audit-container { padding: var(--pz-space-md); max-width: 100%; }
+      table { table-layout: fixed; word-break: break-word; }
+      th, td { padding: var(--pz-space-sm); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="pz-container">
+    <aside class="pz-sidebar" role="navigation" aria-label="Main navigation">
+      <div class="pz-sidebar-header">
+        <h1 class="pz-logo">PrepperZero</h1>
+        <button class="pz-sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+      <nav>
+        <ul class="pz-nav-list">
+          <li><a href="index.html" class="pz-nav-item"><span class="icon">⌂</span><span>Dashboard</span></a></li>
+          <li><a href="maps.html" class="pz-nav-item"><span class="icon">🗺</span><span>Maps</span></a></li>
+          <li><a href="library.html" class="pz-nav-item"><span class="icon">📚</span><span>Library</span></a></li>
+          <li><a href="tools.html" class="pz-nav-item"><span class="icon">🔧</span><span>Tools</span></a></li>
+          <li><a href="settings.html" class="pz-nav-item"><span class="icon">⚙</span><span>Settings</span></a></li>
+          <li><a href="ap_settings.html" class="pz-nav-item"><span class="icon">📡</span><span>Wi-Fi</span></a></li>
+        </ul>
+      </nav>
+      <div class="pz-sidebar-spacer"></div>
+      <div class="pz-sidebar-footer">
+        <p>Offline Server<br>No Internet Required</p>
+      </div>
+    </aside>
+
+    <div class="pz-main" style="background: var(--pz-bg);">
+      <header class="pz-header">
+        <div class="pz-header-left"><h1 class="pz-page-title">LAN Audit</h1></div>
+        <div class="pz-header-right"><div class="pz-status-indicators"><span class="pz-status-pill"><span class="pz-status-dot"></span>Diagnostic</span></div></div>
+      </header>
+
+      <div class="pz-content" style="background: var(--pz-bg);">
+        <div class="audit-container">
+          <div style="margin-bottom: var(--pz-space-lg);">
+            <a href="index.html" class="pz-button pz-button-secondary pz-button-small">← Back to Dashboard</a>
+          </div>
+          <h1>Service Audit - LAN Mode</h1>
+  <p>
+    Browser Hostname: <code id="host"></code><br>
+    LAN Target: <code id="lan-ip"></code>
+  </p>
+
+  <!-- PORTS / SERVICES -->
+  <div class="section">
+    <h2>Ports / Services (LAN)</h2>
+    <table id="ports-lan-table">
+      <thead>
+        <tr><th>Service</th><th>URL</th><th>Status</th><th>HTTP</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- GAMES -->
+  <div class="section">
+    <h2>Games / EmulatorJS (LAN)</h2>
+    <table id="games-lan-table">
+      <thead>
+        <tr><th>Check</th><th>URL</th><th>Status</th><th>HTTP</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- MAPS -->
+  <div class="section">
+    <h2>Maps / Tiles (LAN)</h2>
+    <table id="maps-lan-table">
+      <thead>
+        <tr><th>Check</th><th>URL</th><th>Status</th><th>HTTP</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- LIBRARY / DASHBOARDS / ZIM -->
+  <div class="section">
+    <h2>Library / Dashboards / ZIM (LAN)</h2>
+    <table id="library-lan-table">
+      <thead>
+        <tr><th>Check</th><th>URL</th><th>Status</th><th>HTTP</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+<script>
+  const host = window.location.hostname;
+  document.getElementById('host').textContent = host;
+
+  const LAN_IP = host;
+  document.getElementById('lan-ip').textContent = LAN_IP;
+
+  const DASH_PORT = 8083;
+  const GAME_PORT = 9000;
+  const TILE_PROXY_PORT = 8087;
+  const KIWIX_CORE = 8081;
+  const KIWIX_NICE = 8082;
+  const MAPS_PORT = 8091;
+  const STATUS_PORT = 9100;
+  const NGINX_PORT = 80;
+
+  // ---------- PORTS / SERVICES ----------
+  function portsChecksFor(ip) {
+    return [
+      { name: "Nginx front door (80)", url: `http://${ip}:${NGINX_PORT}/`, method: "GET" },
+      { name: "Public dashboard (8083)", url: `http://${ip}:${DASH_PORT}/`, method: "GET" },
+      { name: "Streamlit core (8501)", url: `http://${ip}/streamlit/_stcore/health`, method: "GET" },
+      { name: "Game server (9000)", url: `http://${ip}:${GAME_PORT}/play?system=nes&core=fceumm&rom=Paperboy.nes`, method: "HEAD" },
+      { name: "Tile proxy (8087)", url: `http://${ip}:${TILE_PROXY_PORT}/tiles/michigan/5/16/10.pbf`, method: "HEAD" },
+      { name: "Maps server (8091)", url: `http://${ip}:${MAPS_PORT}/services`, method: "GET" },
+      { name: "Kiwix Core (8081)", url: `http://${ip}:${KIWIX_CORE}/`, method: "GET" },
+      { name: "Kiwix Nice (8082)", url: `http://${ip}:${KIWIX_NICE}/`, method: "GET" },
+      { name: "Status service (9100)", url: `http://${ip}:${STATUS_PORT}/`, method: "GET" }
+    ];
+  }
+
+  // ---------- GAMES ----------
+  function gamesChecksFor(ip) {
+    return [
+      { name: "Game server /play (Paperboy NES)", url: `http://${ip}:${GAME_PORT}/play?system=nes&core=fceumm&rom=Paperboy.nes`, method: "HEAD" },
+      { name: "EmulatorJS loader.js", url: `http://${ip}:${GAME_PORT}/emulatorjs/data/loader.js`, method: "HEAD" },
+      { name: "EmulatorJS version.json", url: `http://${ip}:${GAME_PORT}/emulatorjs/data/version.json`, method: "HEAD" },
+      { name: "Sample NES ROM (Paperboy.nes)", url: `http://${ip}:${GAME_PORT}/roms/nes/Paperboy.nes`, method: "HEAD" }
+    ];
+  }
+
+  // ---------- MAPS ----------
+  function mapsChecksFor(ip) {
+    return [
+      { name: "Tile proxy root", url: `http://${ip}:${TILE_PROXY_PORT}/tiles/michigan/5/16/10.pbf`, method: "HEAD" },
+      { name: "Sample Michigan tile", url: `http://${ip}:${TILE_PROXY_PORT}/tiles/michigan/5/16/10.pbf`, method: "HEAD" },
+      { name: "Maps server /services", url: `http://${ip}:${MAPS_PORT}/services`, method: "GET" }
+    ];
+  }
+
+  // ---------- LIBRARY ----------
+  function libraryChecksFor(ip) {
+    return [
+      { name: "Public dashboard root (8083)", url: `http://${ip}:${DASH_PORT}/`, method: "GET" },
+      { name: "Direct Streamlit dashboard (8501)", url: `http://${ip}/streamlit/_stcore/health`, method: "GET" },
+      { name: "Kiwix Core (8081)", url: `http://${ip}:${KIWIX_CORE}/`, method: "GET" },
+      { name: "Kiwix Nice (8082)", url: `http://${ip}:${KIWIX_NICE}/`, method: "GET" }
+    ];
+  }
+
+  // ---------- CHECK RUNNER ----------
+  function runChecks(checks, tableId) {
+    const tbody = document.querySelector(`#${tableId} tbody`);
+    tbody.innerHTML = "";
+
+    checks.forEach(check => {
+      const row = document.createElement("tr");
+      const statusCell = document.createElement("td");
+      statusCell.textContent = "Pending...";
+      statusCell.className = "status-pending";
+
+      row.innerHTML = `
+        <td>${check.name}</td>
+        <td><code>${check.url}</code></td>
+      `;
+      row.appendChild(statusCell);
+      const httpCell = document.createElement("td");
+      httpCell.textContent = "-";
+      row.appendChild(httpCell);
+      tbody.appendChild(row);
+
+      fetch(check.url, { method: check.method })
+        .then(resp => {
+          const ok = resp.ok || (resp.status === 404 && check.name.includes("Status service"));
+          statusCell.textContent = ok ? "OK" : "FAIL";
+          statusCell.className = ok ? "status-ok" : "status-fail";
+          httpCell.textContent = resp.status;
+        })
+        .catch(err => {
+          statusCell.textContent = "ERROR";
+          statusCell.className = "status-fail";
+          httpCell.textContent = "—";
+        });
+    });
+  }
+
+  // Run LAN-only checks
+  runChecks(portsChecksFor(LAN_IP),   "ports-lan-table");
+  runChecks(gamesChecksFor(LAN_IP),   "games-lan-table");
+  runChecks(mapsChecksFor(LAN_IP),    "maps-lan-table");
+  runChecks(libraryChecksFor(LAN_IP), "library-lan-table");
+</script>
+
+        </div>
+      </div>
+
+      <footer class="pz-footer"><p>PrepperZero LAN Audit - Service diagnostics - No internet required</p></footer>
+    </div>
+  </div>
+
+  <script src="js/sidebar-toggle.js"></script>
+
+  <!-- Service Worker Registration for Offline Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch((e) => console.warn('[SW]', e.message));
+    }
+  </script>
+</body>
+</html>

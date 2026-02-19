@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PrepperZero – Medical Library</title>
+  <link rel="preload" href="css/design-system.css" as="style">
+  <link rel="stylesheet" href="css/design-system.css">
+</head>
+<body>
+  <div class="pz-container">
+    <aside class="pz-sidebar" role="navigation" aria-label="Main navigation">
+      <div class="pz-sidebar-header">
+        <h1 class="pz-logo">PrepperZero</h1>
+        <button class="pz-sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+      <nav>
+        <ul class="pz-nav-list">
+          <li><a href="index.html"       class="pz-nav-item"><span class="icon">&#8962;</span><span>Dashboard</span></a></li>
+          <li><a href="maps.html"        class="pz-nav-item"><span class="icon">&#128506;</span><span>Maps</span></a></li>
+          <li><a href="library.html"     class="pz-nav-item pz-nav-active"><span class="icon">&#128218;</span><span>Library</span></a></li>
+          <li><a href="tools.html"       class="pz-nav-item"><span class="icon">&#128295;</span><span>Tools</span></a></li>
+          <li><a href="games.html"       class="pz-nav-item"><span class="icon">&#127918;</span><span>Games</span></a></li>
+          <li><a href="settings.html"    class="pz-nav-item"><span class="icon">&#9881;</span><span>Settings</span></a></li>
+          <li><a href="ap_settings.html" class="pz-nav-item"><span class="icon">&#128225;</span><span>Wi-Fi</span></a></li>
+        </ul>
+      </nav>
+      <div class="pz-sidebar-spacer"></div>
+      <div class="pz-sidebar-footer"><p>Offline Server<br>No Internet Required</p></div>
+    </aside>
+
+    <div class="pz-main">
+      <header class="pz-header">
+        <div class="pz-header-left"><h1 class="pz-page-title">Medical Library</h1></div>
+        <div class="pz-header-right">
+          <div class="pz-status-indicators">
+            <span class="pz-status-pill"><span class="pz-status-dot"></span>Online</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="pz-content">
+
+        <!-- ZIM Collections -->
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>Medical ZIM Collections</h2>
+            <p>Auto-discovered from Kiwix Core (8081) and Nice (8082).</p>
+          </div>
+          <div class="pz-grid" id="zim-grid">
+            <div class="pz-card"><p>Loading medical ZIMs...</p></div>
+          </div>
+        </section>
+
+        <!-- PDF Collections -->
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>Foundational Health Guides</h2>
+            <p>Essential off-grid medical references.</p>
+          </div>
+          <div class="pz-grid">
+            <a class="pz-card" href="/files-root/medical/Where_There_Is_No_Doctor_2025_FULL.pdf">
+              <h3>Where There Is No Doctor</h3>
+              <p>Village health care.</p>
+            </a>
+            <a class="pz-card" href="/files-root/medical/Where_There_Is_No_Dentist_2024_FULL.pdf">
+              <h3>Where There Is No Dentist</h3>
+              <p>Dental care off-grid.</p>
+            </a>
+            <a class="pz-card" href="/files-root/medical/Where_Women_Have_No_Doctor_2024_FULL.pdf">
+              <h3>Where Women Have No Doctor</h3>
+              <p>Women's health.</p>
+            </a>
+          </div>
+        </section>
+
+      </div>
+
+      <footer class="pz-footer"><p>PrepperZero Medical Library &mdash; No internet required</p></footer>
+    </div>
+  </div>
+
+  <script src="js/sidebar-toggle.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(e => console.warn('[SW]', e.message));
+    }
+
+    async function fetchZimList(port) {
+      try {
+        const res = await fetch(`http://${window.location.hostname}:${port}/library`);
+        if (!res.ok) return [];
+        const xml = await res.text();
+        const doc = new DOMParser().parseFromString(xml, "text/xml");
+        return [...doc.getElementsByTagName("entry")].map(e => ({
+          id: e.getAttribute("id"),
+          title: e.getAttribute("title") || "",
+          description: e.getAttribute("description") || "",
+          port
+        }));
+      } catch { return []; }
+    }
+
+    function isMedical(z) {
+      const t = (z.title + " " + z.description).toLowerCase();
+      return ["medic","health","first aid","doctor","nurse","trauma","disease"].some(k => t.includes(k));
+    }
+
+    async function loadMedicalZims() {
+      const all = (await Promise.all([fetchZimList(8081), fetchZimList(8082)])).flat().filter(isMedical);
+      const grid = document.getElementById("zim-grid");
+      if (!all.length) {
+        grid.innerHTML = '<div class="pz-card"><p>No medical ZIMs found.</p></div>';
+        return;
+      }
+      grid.innerHTML = all.map(z => `
+        <a class="pz-card" href="http://${window.location.hostname}:${z.port}/${z.id}/">
+          <h3>${z.title}</h3>
+          <p>${z.description || "Medical reference"}</p>
+        </a>`).join('');
+    }
+
+    loadMedicalZims();
+  </script>
+</body>
+</html>

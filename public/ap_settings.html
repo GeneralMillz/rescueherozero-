@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PrepperZero Wi-Fi Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PrepperZero Wi-Fi Hotspot Configuration">
+  <link rel="preload" href="css/design-system.css" as="style">
+  <link rel="stylesheet" href="css/design-system.css">
+  <style>
+    @media (max-width: 480px) {
+      .pz-card[style*="max-width: 600px"] {
+        max-width: 100% !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="pz-container">
+    <aside class="pz-sidebar" role="navigation" aria-label="Main navigation">
+      <div class="pz-sidebar-header">
+        <h1 class="pz-logo">PrepperZero</h1>
+        <button class="pz-sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+      <nav>
+        <ul class="pz-nav-list">
+          <li><a href="index.html" class="pz-nav-item"><span class="icon">⌂</span><span>Dashboard</span></a></li>
+          <li><a href="maps.html" class="pz-nav-item"><span class="icon">🗺</span><span>Maps</span></a></li>
+          <li><a href="library.html" class="pz-nav-item"><span class="icon">📚</span><span>Library</span></a></li>
+          <li><a href="tools.html" class="pz-nav-item"><span class="icon">🔧</span><span>Tools</span></a></li>
+          <li><a href="settings.html" class="pz-nav-item"><span class="icon">⚙</span><span>Settings</span></a></li>
+          <li><a href="ap_settings.html" class="pz-nav-item pz-nav-active"><span class="icon">📡</span><span>Wi-Fi</span></a></li>
+        </ul>
+      </nav>
+      <div class="pz-sidebar-spacer"></div>
+      <div class="pz-sidebar-footer">
+        <p>Offline Server<br>No Internet Required</p>
+      </div>
+    </aside>
+
+    <div class="pz-main">
+      <header class="pz-header">
+        <div class="pz-header-left"><h1 class="pz-page-title">Wi-Fi Hotspot</h1></div>
+        <div class="pz-header-right"><div class="pz-status-indicators"><span class="pz-status-pill"><span class="pz-status-dot"></span>Access Point</span></div></div>
+      </header>
+
+      <div class="pz-content">
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>Hotspot Configuration</h2>
+            <p>Update the SSID and password for your PrepperZero access point</p>
+          </div>
+
+          <div class="pz-card" style="max-width: 600px;">
+            <form style="display: flex; flex-direction: column; gap: var(--pz-space-lg);">
+              <div>
+                <label for="ssid" style="display: block; margin-bottom: var(--pz-space-md); font-weight: var(--pz-font-weight-medium); color: var(--pz-text);">Network Name (SSID)</label>
+                <input 
+                  id="ssid" 
+                  type="text" 
+                  placeholder="Enter network name"
+                  style="width: 100%; padding: var(--pz-space-md); background: var(--pz-bg); border: var(--pz-border-width) solid var(--pz-border); color: var(--pz-text); border-radius: var(--pz-radius); font-size: var(--pz-font-size-base); transition: all var(--pz-transition-fast);"
+                  onfocus="this.style.borderColor = 'var(--pz-accent)'"
+                  onblur="this.style.borderColor = 'var(--pz-border)'"
+                >
+              </div>
+
+              <div>
+                <label for="password" style="display: block; margin-bottom: var(--pz-space-md); font-weight: var(--pz-font-weight-medium); color: var(--pz-text);">Password</label>
+                <input 
+                  id="password" 
+                  type="password" 
+                  placeholder="Enter password (8+ characters)"
+                  style="width: 100%; padding: var(--pz-space-md); background: var(--pz-bg); border: var(--pz-border-width) solid var(--pz-border); color: var(--pz-text); border-radius: var(--pz-radius); font-size: var(--pz-font-size-base); transition: all var(--pz-transition-fast);"
+                  onfocus="this.style.borderColor = 'var(--pz-accent)'"
+                  onblur="this.style.borderColor = 'var(--pz-border)'"
+                >
+              </div>
+
+              <button 
+                type="button" 
+                id="save-btn"
+                class="pz-button"
+                style="align-self: flex-start; margin-top: var(--pz-space-md);"
+              >
+                Save Changes
+              </button>
+
+              <div id="status" style="padding: var(--pz-space-md); border-radius: var(--pz-radius); display: none;"></div>
+            </form>
+          </div>
+        </section>
+
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>Connection Information</h2>
+            <p>How to connect to your PrepperZero hotspot</p>
+          </div>
+
+          <div class="pz-grid">
+            <div class="pz-card">
+              <h3>Default Configuration</h3>
+              <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="padding: var(--pz-space-sm) 0;"><strong>Default SSID:</strong> <code>PrepperZero</code></li>
+                <li style="padding: var(--pz-space-sm) 0;"><strong>Default IP:</strong> <code>10.42.0.1</code></li>
+                <li style="padding: var(--pz-space-sm) 0;"><strong>Default Password:</strong> <code>PrepperZero2024</code></li>
+                <li style="padding: var(--pz-space-sm) 0;"><strong>Mode:</strong> WPA2-PSK</li>
+              </ul>
+            </div>
+
+            <div class="pz-card">
+              <h3>AP Mode Usage</h3>
+              <p style="margin: 0; font-size: var(--pz-font-size-sm); color: var(--pz-muted);">PrepperZero creates a Wi-Fi hotspot when your local network is unavailable. All services are accessible from this access point without internet.</p>
+            </div>
+
+            <div class="pz-card">
+              <h3>Security Notes</h3>
+              <ul style="list-style: none; padding: 0; margin: 0; font-size: var(--pz-font-size-sm);">
+                <li style="padding: var(--pz-space-sm) 0;">Password must be 8+ characters</li>
+                <li style="padding: var(--pz-space-sm) 0;">Uses WPA2-PSK encryption</li>
+                <li style="padding: var(--pz-space-sm) 0;">All services remain offline</li>
+                <li style="padding: var(--pz-space-sm) 0;">No internet passthrough</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="pz-footer"><p>PrepperZero Wi-Fi Configuration - Access point management - No internet required</p></footer>
+    </div>
+  </div>
+
+  <script src="js/sidebar-toggle.js"></script>
+  <script>
+    async function loadSettings() {
+      const status = document.getElementById("status");
+      try {
+        const r = await fetch("/api/ap-config");
+        const data = await r.json();
+        document.getElementById("ssid").value = data.SSID || "";
+        document.getElementById("password").value = data.PASSWORD || "";
+      } catch {
+        status.textContent = "Unable to load settings.";
+        status.style.display = "block";
+        status.style.background = "rgba(255, 82, 82, 0.1)";
+        status.style.borderLeft = "3px solid var(--pz-danger)";
+        status.style.color = "var(--pz-danger)";
+      }
+    }
+
+    async function saveSettings() {
+      const ssid = document.getElementById("ssid").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const status = document.getElementById("status");
+
+      if (!ssid) {
+        status.textContent = "Please enter a network name.";
+        status.style.display = "block";
+        status.style.background = "rgba(255, 82, 82, 0.1)";
+        status.style.borderLeft = "3px solid var(--pz-danger)";
+        status.style.color = "var(--pz-danger)";
+        return;
+      }
+
+      if (password.length < 8) {
+        status.textContent = "Password must be at least 8 characters.";
+        status.style.display = "block";
+        status.style.background = "rgba(255, 82, 82, 0.1)";
+        status.style.borderLeft = "3px solid var(--pz-danger)";
+        status.style.color = "var(--pz-danger)";
+        return;
+      }
+
+      status.textContent = "Saving...";
+      status.style.display = "block";
+      status.style.background = "rgba(76, 175, 80, 0.1)";
+      status.style.borderLeft = "3px solid var(--pz-success)";
+      status.style.color = "var(--pz-success)";
+
+      try {
+        const r = await fetch("/api/ap-config", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ SSID: ssid, PASSWORD: password })
+        });
+
+        if (r.ok) {
+          status.textContent = "Settings saved successfully. Hotspot restarting...";
+          status.style.background = "rgba(76, 175, 80, 0.1)";
+          status.style.color = "var(--pz-success)";
+        } else {
+          status.textContent = "Error saving settings. Please try again.";
+          status.style.background = "rgba(255, 82, 82, 0.1)";
+          status.style.color = "var(--pz-danger)";
+        }
+      } catch (err) {
+        status.textContent = "Network error. Unable to save settings.";
+        status.style.background = "rgba(255, 82, 82, 0.1)";
+        status.style.color = "var(--pz-danger)";
+      }
+    }
+
+    document.getElementById("save-btn").addEventListener("click", saveSettings);
+    loadSettings();
+  </script>
+
+  <!-- Service Worker Registration for Offline Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch((e) => console.warn('[SW]', e.message));
+    }
+  </script>
+
+</body>
+</html>

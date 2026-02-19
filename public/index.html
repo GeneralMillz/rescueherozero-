@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RescueHeroZero — Offline survival server. Maps, libraries, tools, and resources. No internet required.">
+  <title>RescueHeroZero</title>
+  <link rel="dns-prefetch" href="//10.42.0.1">
+  <link rel="preload" href="css/design-system.css" as="style">
+  <link rel="stylesheet" href="css/design-system.css">
+  <style>
+    /* Hero banner */
+    .pz-hero {
+      background: linear-gradient(135deg, #0d1628 0%, #111520 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 20px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .pz-hero-text h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--fg);
+      margin: 0 0 4px;
+      letter-spacing: -0.01em;
+    }
+    .pz-hero-text p {
+      font-size: 13px;
+      color: var(--fg-muted);
+      margin: 0;
+    }
+    .pz-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--green-soft);
+      border: 1px solid rgba(48,209,88,0.2);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--green);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .pz-hero-badge-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    /* Card icon */
+    .pz-card-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="pz-backdrop"></div>
+  <div class="pz-container">
+
+    <aside class="pz-sidebar" role="navigation" aria-label="Main navigation">
+      <div class="pz-sidebar-header">
+        <h1 class="pz-logo">RescueHeroZero</h1>
+        <button class="pz-sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <nav>
+        <ul class="pz-nav-list">
+          <li><a href="index.html"       class="pz-nav-item pz-nav-active"><span class="icon">&#8962;</span><span>Dashboard</span></a></li>
+          <li><a href="maps.html"        class="pz-nav-item"><span class="icon">&#128506;</span><span>Maps</span></a></li>
+          <li><a href="library.html"     class="pz-nav-item"><span class="icon">&#128218;</span><span>Library</span></a></li>
+          <li><a href="tools.html"       class="pz-nav-item"><span class="icon">&#128295;</span><span>Tools</span></a></li>
+          <li><a href="games.html"       class="pz-nav-item"><span class="icon">&#127918;</span><span>Games</span></a></li>
+          <li><a href="settings.html"    class="pz-nav-item"><span class="icon">&#9881;</span><span>Settings</span></a></li>
+          <li><a href="ap_settings.html" class="pz-nav-item"><span class="icon">&#128225;</span><span>Wi-Fi</span></a></li>
+        </ul>
+      </nav>
+      <div class="pz-sidebar-spacer"></div>
+      <div class="pz-sidebar-footer">
+        <p>Offline Server<br>No Internet Required</p>
+      </div>
+    </aside>
+
+    <div class="pz-main">
+      <header class="pz-header">
+        <div class="pz-header-left">
+          <h1 class="pz-page-title">Dashboard</h1>
+        </div>
+        <div class="pz-header-right">
+          <div class="pz-status-indicators">
+            <span class="pz-status-pill">
+              <span class="pz-status-dot"></span>
+              Online
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <div class="pz-content">
+
+        <!-- Core Modules -->
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>Core Modules</h2>
+            <p>Essential functions of the RescueHeroZero survival server</p>
+          </div>
+          <div class="pz-grid">
+            <a href="maps.html" class="pz-card">
+              <span class="pz-card-icon">&#128506;</span>
+              <h3>Maps</h3>
+              <p>Offline vector maps by state. Navigate without internet.</p>
+            </a>
+            <a href="library.html" class="pz-card">
+              <span class="pz-card-icon">&#128218;</span>
+              <h3>Library</h3>
+              <p>Books, manuals, and references for survival and skills.</p>
+            </a>
+            <a href="tools.html" class="pz-card">
+              <span class="pz-card-icon">&#128295;</span>
+              <h3>Tools</h3>
+              <p>Offline utilities, calculators, and diagrams.</p>
+            </a>
+            <a href="settings.html" class="pz-card">
+              <span class="pz-card-icon">&#9881;</span>
+              <h3>Settings</h3>
+              <p>System status, performance, and configuration.</p>
+            </a>
+          </div>
+        </section>
+
+        <!-- Additional -->
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>Additional Resources</h2>
+            <p>Optional tools and diagnostics</p>
+          </div>
+          <div class="pz-grid">
+            <a href="games.html" class="pz-card">
+              <span class="pz-card-icon">&#127918;</span>
+              <h3>Retro Games</h3>
+              <p>NES, SNES, Game Boy, Genesis &amp; more.</p>
+            </a>
+            <a href="/tools/index.html" class="pz-card">
+              <span class="pz-card-icon">&#128241;</span>
+              <h3>Utilities</h3>
+              <p>Python, SQL, diagrams, and dev tools.</p>
+            </a>
+            <a href="audit.html" class="pz-card">
+              <span class="pz-card-icon">&#128269;</span>
+              <h3>LAN Audit</h3>
+              <p>Verify all services on local network.</p>
+            </a>
+            <a href="apaudit.html" class="pz-card">
+              <span class="pz-card-icon">&#128246;</span>
+              <h3>AP Audit</h3>
+              <p>Verify all services in hotspot mode.</p>
+            </a>
+          </div>
+        </section>
+
+      </div>
+
+      <footer class="pz-footer">
+        <p>RescueHeroZero &bull; Offline Survival Server &bull; No internet required &bull; Designed for resilience</p>
+      </footer>
+    </div>
+  </div>
+
+  <script src="js/sidebar-toggle.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(e => console.warn('[SW]', e.message));
+    }
+  </script>
+</body>
+</html>

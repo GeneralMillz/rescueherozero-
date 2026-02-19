@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PrepperZero – Nice Library</title>
+  <link rel="preload" href="css/design-system.css" as="style">
+  <link rel="stylesheet" href="css/design-system.css">
+  <style>
+    .pz-main { overflow: hidden; }
+    .pz-content { padding: 0; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .lib-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 20px;
+      background: var(--pz-header-bg, #0b0e18);
+      border-bottom: 1px solid var(--pz-border, #222633);
+      flex-shrink: 0;
+      font-size: 0.9rem;
+    }
+    .lib-toolbar a { color: var(--pz-accent, #9cc4ff); text-decoration: none; }
+    .lib-toolbar a:hover { text-decoration: underline; }
+    .iframe-container { flex: 1; overflow: hidden; }
+    iframe { width: 100%; height: 100%; border: none; background: #000; display: block; }
+  </style>
+</head>
+<body>
+  <div class="pz-container">
+    <aside class="pz-sidebar" role="navigation" aria-label="Main navigation">
+      <div class="pz-sidebar-header">
+        <h1 class="pz-logo">PrepperZero</h1>
+        <button class="pz-sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+      <nav>
+        <ul class="pz-nav-list">
+          <li><a href="index.html"       class="pz-nav-item"><span class="icon">&#8962;</span><span>Dashboard</span></a></li>
+          <li><a href="maps.html"        class="pz-nav-item"><span class="icon">&#128506;</span><span>Maps</span></a></li>
+          <li><a href="library.html"     class="pz-nav-item pz-nav-active"><span class="icon">&#128218;</span><span>Library</span></a></li>
+          <li><a href="tools.html"       class="pz-nav-item"><span class="icon">&#128295;</span><span>Tools</span></a></li>
+          <li><a href="games.html"       class="pz-nav-item"><span class="icon">&#127918;</span><span>Games</span></a></li>
+          <li><a href="settings.html"    class="pz-nav-item"><span class="icon">&#9881;</span><span>Settings</span></a></li>
+          <li><a href="ap_settings.html" class="pz-nav-item"><span class="icon">&#128225;</span><span>Wi-Fi</span></a></li>
+        </ul>
+      </nav>
+      <div class="pz-sidebar-spacer"></div>
+      <div class="pz-sidebar-footer"><p>Offline Server<br>No Internet Required</p></div>
+    </aside>
+
+    <div class="pz-main">
+      <header class="pz-header">
+        <div class="pz-header-left"><h1 class="pz-page-title">Nice Library</h1></div>
+        <div class="pz-header-right">
+          <div class="pz-status-indicators">
+            <span class="pz-status-pill"><span class="pz-status-dot"></span>Online</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="pz-content">
+        <div class="lib-toolbar">
+          <a href="library.html">&#8592; Back to Library</a>
+          <span style="opacity:0.4">|</span>
+          <a href="library-core.html">Core</a>
+          <span style="opacity:0.4">&ndash;</span>
+          <a href="library-nice.html">Nice</a>
+          <span style="opacity:0.4">&ndash;</span>
+          <a href="library-search.html">Search</a>
+          <span style="opacity:0.4">|</span>
+          <span style="opacity:0.5;font-size:0.8rem">STEM, TED &amp; curated learning &bull; port 8082</span>
+        </div>
+        <div class="iframe-container">
+          <iframe id="libframe" title="Nice Library"></iframe>
+        </div>
+      </div>
+
+      <footer class="pz-footer"><p>PrepperZero Nice Library &mdash; No internet required</p></footer>
+    </div>
+  </div>
+
+  <script src="js/sidebar-toggle.js"></script>
+  <script>
+    const host = window.location.hostname || "127.0.0.1";
+    const frame = document.getElementById("libframe");
+    frame.src = `http://${host}:8082/`;
+    frame.onerror = () => {
+      frame.srcdoc = `<div style="padding:40px;font-family:system-ui;color:#eee;text-align:center;background:#05060a;height:100%">
+        <h2>Nice Library Unavailable</h2>
+        <p>Service on port 8082 is not responding.</p>
+        <p>Check <code>status.sh</code> or logs in <code>/home/pi/prepperzero/logs/</code>.</p>
+      </div>`;
+    };
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(e => console.warn('[SW]', e.message));
+    }
+  </script>
+</body>
+</html>

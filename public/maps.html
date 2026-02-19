@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PrepperZero Maps</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PrepperZero Offline Vector Maps - Navigate without internet">
+
+  <link rel="preload" href="css/design-system.css" as="style">
+  <link rel="stylesheet" href="css/design-system.css">
+  
+  <!-- Local MapLibre GL JS (offline-ready) -->
+  <link rel="preload" href="js/maplibre-gl.js" as="script">
+  <link href="css/maplibre-gl.css" rel="stylesheet" />
+  <script src="js/maplibre-gl.js"></script>
+
+  <style>
+    #map { width: 100%; height: 100%; }
+    .map-info { padding: var(--pz-space-lg); background: var(--pz-surface); border-radius: var(--pz-radius); margin-bottom: var(--pz-space-lg); }
+    #state-select { padding: var(--pz-space-md); background: var(--pz-bg); border: var(--pz-border-width) solid var(--pz-border); color: var(--pz-text); border-radius: var(--pz-radius); cursor: pointer; margin-top: var(--pz-space-md); width: 100%; max-width: 200px; }
+    #state-select:hover { border-color: var(--pz-accent); }
+    @media (max-width: 480px) {
+      #state-select { max-width: 100%; }
+      .map-info { padding: var(--pz-space-md); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="pz-container">
+    <aside class="pz-sidebar" role="navigation" aria-label="Main navigation">
+      <div class="pz-sidebar-header">
+        <h1 class="pz-logo">PrepperZero</h1>
+        <button class="pz-sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+      <nav>
+        <ul class="pz-nav-list">
+          <li><a href="index.html" class="pz-nav-item"><span class="icon">⌂</span><span>Dashboard</span></a></li>
+          <li><a href="maps.html" class="pz-nav-item pz-nav-active"><span class="icon">🗺</span><span>Maps</span></a></li>
+          <li><a href="library.html" class="pz-nav-item"><span class="icon">📚</span><span>Library</span></a></li>
+          <li><a href="tools.html" class="pz-nav-item"><span class="icon">🔧</span><span>Tools</span></a></li>
+          <li><a href="settings.html" class="pz-nav-item"><span class="icon">⚙</span><span>Settings</span></a></li>
+          <li><a href="ap_settings.html" class="pz-nav-item"><span class="icon">📡</span><span>Wi-Fi</span></a></li>
+        </ul>
+      </nav>
+      <div class="pz-sidebar-spacer"></div>
+      <div class="pz-sidebar-footer">
+        <p>Offline Server<br>No Internet Required</p>
+      </div>
+    </aside>
+
+    <div class="pz-main">
+      <header class="pz-header">
+        <div class="pz-header-left"><h1 class="pz-page-title">Maps</h1></div>
+        <div class="pz-header-right"><div class="pz-status-indicators"><span class="pz-status-pill"><span class="pz-status-dot"></span>Online</span></div></div>
+      </header>
+
+      <div class="pz-content">
+        <div class="map-info">
+          <h3>Currently Loaded</h3>
+          <p><strong>Michigan (Vector Tiles)</strong></p>
+          <p style="color: var(--pz-muted); font-size: var(--pz-font-size-sm); margin-top: var(--pz-space-md); margin-bottom: 0;">Vector tiles served locally from this device. Zoom, pan, and explore offline.</p>
+          <select id="state-select" disabled>
+            <option value="michigan" selected>Michigan</option>
+          </select>
+        </div>
+
+        <div style="display: flex; flex-direction: column; height: calc(100vh - 300px); background: var(--pz-surface); border: var(--pz-border-width) solid var(--pz-border); border-radius: var(--pz-radius); overflow: hidden;">
+          <div id="map" role="application" aria-label="MapLibre vector map of Michigan"></div>
+        </div>
+      </div>
+
+      <footer class="pz-footer"><p>Vector maps powered by MapLibre GL • Offline first • No internet required</p></footer>
+    </div>
+  </div>
+
+  <script src="js/sidebar-toggle.js"></script>
+  <script src="js/maps.js?v=2"></script>
+
+  <!-- Service Worker Registration for Offline Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch((e) => console.warn('[SW] Registration failed:', e));
+      });
+    }
+  </script>
+</body>
+</html>

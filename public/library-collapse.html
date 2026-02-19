@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PrepperZero – CollapseSurvivalSite Library</title>
+  <link rel="preload" href="css/design-system.css" as="style">
+  <link rel="stylesheet" href="css/design-system.css">
+</head>
+<body>
+  <div class="pz-container">
+    <aside class="pz-sidebar" role="navigation" aria-label="Main navigation">
+      <div class="pz-sidebar-header">
+        <h1 class="pz-logo">PrepperZero</h1>
+        <button class="pz-sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+      <nav>
+        <ul class="pz-nav-list">
+          <li><a href="index.html"       class="pz-nav-item"><span class="icon">&#8962;</span><span>Dashboard</span></a></li>
+          <li><a href="maps.html"        class="pz-nav-item"><span class="icon">&#128506;</span><span>Maps</span></a></li>
+          <li><a href="library.html"     class="pz-nav-item pz-nav-active"><span class="icon">&#128218;</span><span>Library</span></a></li>
+          <li><a href="tools.html"       class="pz-nav-item"><span class="icon">&#128295;</span><span>Tools</span></a></li>
+          <li><a href="games.html"       class="pz-nav-item"><span class="icon">&#127918;</span><span>Games</span></a></li>
+          <li><a href="settings.html"    class="pz-nav-item"><span class="icon">&#9881;</span><span>Settings</span></a></li>
+          <li><a href="ap_settings.html" class="pz-nav-item"><span class="icon">&#128225;</span><span>Wi-Fi</span></a></li>
+        </ul>
+      </nav>
+      <div class="pz-sidebar-spacer"></div>
+      <div class="pz-sidebar-footer"><p>Offline Server<br>No Internet Required</p></div>
+    </aside>
+
+    <div class="pz-main">
+      <header class="pz-header">
+        <div class="pz-header-left"><h1 class="pz-page-title">CollapseSurvivalSite Library</h1></div>
+        <div class="pz-header-right">
+          <div class="pz-status-indicators">
+            <span class="pz-status-pill"><span class="pz-status-dot"></span>Online</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="pz-content">
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <h2>Survival Manuals &amp; Field Guides</h2>
+            <p>403 references from collapsesurvivalsite.com &mdash; <a href="library.html" style="color:var(--pz-accent,#9cc4ff)">&#8592; Back to Library</a></p>
+          </div>
+          <div class="pz-grid" id="pdf-grid">
+            <div class="pz-card"><p>Loading PDFs...</p></div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="pz-footer"><p>PrepperZero CollapseSurvivalSite Library &mdash; No internet required</p></footer>
+    </div>
+  </div>
+
+  <script src="js/sidebar-toggle.js"></script>
+  <script src="js/pdf-loader.js"></script>
+  <script>
+    loadPDFs("collapse", "pdf-grid");
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(e => console.warn('[SW]', e.message));
+    }
+  </script>
+</body>
+</html>

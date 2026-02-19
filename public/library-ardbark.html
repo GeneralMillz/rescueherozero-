@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ardbark Library - PrepperZero</title>
+  <meta name="description" content="39 curated survival PDFs from Ardbark's archive">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="dns-prefetch" href="//10.42.0.1">
+
+  <link rel="preload" href="css/design-system.css" as="style">
+  
+  <link rel="stylesheet" href="css/design-system.css">
+</head>
+
+<body>
+
+  <div class="pz-container">
+
+    <aside class="pz-sidebar" role="navigation" aria-label="Main navigation">
+      <div class="pz-sidebar-header">
+        <h1 class="pz-logo">PrepperZero</h1>
+        <button class="pz-sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <nav>
+        <ul class="pz-nav-list">
+          <li>
+            <a href="index.html" class="pz-nav-item">
+              <span class="icon">??</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="maps.html" class="pz-nav-item">
+              <span class="icon">???</span>
+              <span>Maps</span>
+            </a>
+          </li>
+          <li>
+            <a href="library.html" class="pz-nav-item pz-nav-active">
+              <span class="icon">??</span>
+              <span>Library</span>
+            </a>
+          </li>
+          <li>
+            <a href="tools.html" class="pz-nav-item">
+              <span class="icon">??</span>
+              <span>Tools</span>
+            </a>
+          </li>
+          <li>
+            <a href="settings.html" class="pz-nav-item">
+              <span class="icon">??</span>
+              <span>Settings</span>
+            </a>
+          </li>
+          <li>
+            <a href="ap_settings.html" class="pz-nav-item">
+              <span class="icon">??</span>
+              <span>Wi-Fi</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="pz-sidebar-spacer"></div>
+
+      <div class="pz-sidebar-footer">
+        <p>Offline Server<br>No Internet Required</p>
+      </div>
+    </aside>
+
+    <div class="pz-main">
+
+      <header class="pz-header">
+        <div class="pz-header-left">
+          <h1 class="pz-page-title">Ardbark Library</h1>
+        </div>
+        <div class="pz-header-right">
+          <span class="pz-status-pill">
+            <span class="pz-status-dot"></span>
+            39 Resources
+          </span>
+        </div>
+      </header>
+
+      <div class="pz-content">
+        
+        <section class="pz-section">
+          <div class="pz-section-header">
+            <a href="library.html" class="pz-button pz-button-secondary pz-button-small" style="margin-bottom: 1rem; display: inline-block;">
+              ? Back to Library
+            </a>
+            <h2>Survival Archive</h2>
+            <p>Curated PDF collection from the Ardbark survival repository.</p>
+          </div>
+
+          <div class="pz-grid" id="pdf-grid">
+            <p class="muted">Initializing offline library...</p>
+          </div>
+        </section>
+
+      </div>
+
+      <footer class="pz-footer">
+        <p>PrepperZero Offline Survival Server • Archive Mode • Designed for resilience</p>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="js/sidebar-toggle.js"></script>
+  <script src="js/pdf-loader.js"></script>
+  <script>
+    // Execute specific loader logic
+    loadPDFs("ardbark", "pdf-grid");
+
+    // Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((reg) => console.log('[App] SW registered'))
+          .catch((err) => console.warn('[App] SW failed', err));
+      });
+    }
+  </script>
+
+</body>
+</html>
